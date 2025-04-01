@@ -8,18 +8,24 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout codice
-        uses: actions/checkout@v4
+    - name: Checkout codice
+      uses: actions/checkout@v4
 
-      - name: Setup JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    - name: Setup JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
 
-      - name: Build con Maven
-        run: mvn -B package --file pom.xml
+    - name: Build e test con Maven
+      run: mvn clean install
+
+    - name: Carica artifact (JAR)
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifact
+        path: target/*.jar
+
